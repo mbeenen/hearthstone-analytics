@@ -1,9 +1,10 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('static-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+var express = require('express'),
+    path = require('path'),
+    favicon = require('static-favicon'),
+    logger = require('morgan'),
+    exphbs = require('express-handlebars'),
+    cookieParser = require('cookie-parser'),
+    bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -11,8 +12,10 @@ var users = require('./routes/users');
 var app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.engine('handlebars', exphbs({defaultLayout: 'main'}));
+app.set('view engine', 'handlebars');
+// app.set('views', path.join(__dirname, 'views'));
+// app.set('view engine', 'jade');
 
 app.use(favicon());
 app.use(logger('dev'));
