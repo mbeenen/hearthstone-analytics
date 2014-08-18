@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 
-var deckSchema = new mongoose.Schema({
+var Schema = mongoose.Schema;
+var deckSchema = new Schema({
   title: {
     type: String,
     required: true,
@@ -18,7 +19,7 @@ var deckSchema = new mongoose.Schema({
   },
   _creator: {
     type: String,
-    ref: User
+    ref: 'User'
   }
 });
 
