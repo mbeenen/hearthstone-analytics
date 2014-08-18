@@ -4,7 +4,12 @@ var express = require('express'),
     logger = require('morgan'),
     exphbs = require('express-handlebars'),
     cookieParser = require('cookie-parser'),
-    bodyParser = require('body-parser');
+    bodyParser = require('body-parser'),
+    methodOverride = require('method-override'),
+    mongoose = require('mongoose'),
+    models = require('./models'),
+    dbUrl = process.env.MONGOHQ_URL || 'mongodb://@localhost:27017/hearthstone-analytics',
+    db = mongoose.connect(dbUrl, {safe: true});
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -14,15 +19,22 @@ var app = express();
 // view engine setup
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
-// app.set('views', path.join(__dirname, 'views'));
-// app.set('view engine', 'jade');
 
 app.use(favicon());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
+app.use(methodOverride());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(function(req, res, next) {
+  if (!models) {
+    return next(new Error('No models.'));
+  }
+  req.models = models;
+  return next();
+});
 
 app.use('/', routes);
 app.use('/users', users);
