@@ -1,9 +1,10 @@
-var express = require('express');
-var router = express.Router();
+exports.createDeck = require('./create-deck');
 
-/* GET home page. */
-router.get('/', function(req, res) {
-  res.render('home', { title: 'Express' });
-});
+/*
+ * GET home page.
+ */
 
-module.exports = router;
+exports.index = function(req, res, next){
+  console.log('using index route');
+  res.render('home');
+};

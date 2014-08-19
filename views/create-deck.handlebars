@@ -1,0 +1,24 @@
+<h2>Create Deck</h2>
+<form action="/create-deck" method="POST" role="form">
+  <div class="form-group">
+    <label for="name">Name</label>
+    <input type="text" class="form-control" id="name" placeholder="Deck name" name="name">
+  </div>
+  <div class="form-group">
+    <label for="class">Class</label>
+      <select class="form-control" id="class" name="class">
+        {{#each classes}}
+        <option>{{_id}}</option>
+        {{/each}}  
+      </select>
+  </div>
+  <div class="form-group">
+    <label for="archetype">Archetype</label>
+    <select class="form-control" id="class" name="archetype">
+      {{#each archetypes}}
+      <option value="{{name}}">{{class}} - {{name}}</option>
+      {{/each}}  
+    </select>
+  </div>
+  <button type="submit" class="btn btn-primary">Create Deck</button>
+</form>

@@ -12,7 +12,6 @@ var express = require('express'),
     db = mongoose.connect(dbUrl, {safe: true});
 
 var routes = require('./routes/index');
-var users = require('./routes/users');
 
 var app = express();
 
@@ -36,8 +35,9 @@ app.use(function(req, res, next) {
   return next();
 });
 
-app.use('/', routes);
-app.use('/users', users);
+app.get('/', routes.index);
+app.get('/create-deck', routes.createDeck.form);
+app.post('/create-deck', routes.createDeck.create);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
