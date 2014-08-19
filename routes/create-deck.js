@@ -40,7 +40,7 @@ exports.create = function(req, res, next) {
     console.log('archetype is ' + util.inspect(archetype));
     var deck = {
       user: "michael.beenen@gmail.com",
-      title: req.body.name,
+      name: req.body.name,
       archetype: archetype._id
     };
     req.models.Deck.create(deck, function(error) {
