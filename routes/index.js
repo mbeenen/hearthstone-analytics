@@ -1,5 +1,6 @@
 exports.createDeck = require('./create-deck');
 exports.createGame = require('./create-game');
+exports.stats = require('./stats');
 
 /*
  * GET home page.

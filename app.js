@@ -40,6 +40,7 @@ app.get('/create-deck', routes.createDeck.form);
 app.post('/create-deck', routes.createDeck.create);
 app.get('/create-game', routes.createGame.form);
 app.post('/create-game', routes.createGame.create);
+app.get('/stats', routes.stats.view);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {

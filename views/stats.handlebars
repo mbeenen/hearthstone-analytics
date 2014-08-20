@@ -1,0 +1,42 @@
+<h2>Game Anlysis</h2>
+{{#if statsMap}}
+  {{#each statsMap}}
+    <h3>Vs. {{name}}</h3>
+    <table class="table">
+      <thead>
+        <th>Deck</th>
+        <th>Games</th>
+        <th>Wins</th>
+        <th>Losses</th>
+        <th>Draws</th>
+        <th>Win Percentage</th>
+      </thead>
+      <tbody>
+        {{#each deckStats}}
+          <tr>
+            <td>{{name}}</td>
+            <td>{{games}}</td>
+            <td>{{wins}}</td>
+            <td>{{losses}}</td>
+            <td>{{draws}}</td>
+            <td>{{winRate}}</td>
+          </tr>
+        {{/each}}
+    </table>
+  {{/each}}  
+{{/if}}  
+<h3>Filter Sets</h3>
+<p>Select a deck to see performance</p>
+<form action="/stats" method="GET" role="form">
+  <div class="form-group">
+    <label for="deck">Deck</label>
+    <select class="form-control" id="deck" name="deck">
+      {{#each decks}}
+        <option>{{name}}</option>
+      {{/each}}  
+    </select>
+  </div>
+  <button type="submit" class="btn btn-primary">Get stats</button>
+</form>
+
+
