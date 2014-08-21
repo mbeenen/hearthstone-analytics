@@ -23,5 +23,11 @@ var deckSchema = new Schema({
   }
 });
 
+deckSchema.static({
+  list: function(callback) {
+    this.find({}, null, {sort: {name: 1}}, callback);
+  }
+});
+
 module.exports = mongoose.model('Deck', deckSchema);
 

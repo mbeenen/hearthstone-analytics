@@ -1,7 +1,7 @@
 var util = require('util');
 
 exports.form = function(req, res, next) {
-  req.models.Class.find({}, function(error, classes) {
+  req.models.Class.list(function(error, classes) {
     if (error) {
       return next(error);
     }

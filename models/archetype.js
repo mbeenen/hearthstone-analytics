@@ -12,4 +12,10 @@ var archetypeSchema = new mongoose.Schema({
   }
 });
 
+archetypeSchema.static({
+  list: function(callback) {
+    this.find({}, null, {sort: {class: 1, name: 1}}, callback);
+  }
+});
+
 module.exports = mongoose.model('Archetype', archetypeSchema);

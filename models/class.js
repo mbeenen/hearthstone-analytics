@@ -7,4 +7,10 @@ var classSchema = new mongoose.Schema({
   }
 });
 
+classSchema.static({
+  list: function(callback) {
+    this.find({}, null, {sort: {_id: 1}}, callback);
+  }
+});
+
 module.exports = mongoose.model('Class', classSchema);

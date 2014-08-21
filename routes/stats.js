@@ -6,7 +6,7 @@ var numeral = require('numeral');
  */
 
 exports.view = function(req, res, next) {
-  req.models.Deck.find({}, function(error, decks) {
+  req.models.Deck.list(function(error, decks) {
     if (error) {
       return next(error);
     }
@@ -72,7 +72,7 @@ exports.view = function(req, res, next) {
               default:
                 break;
               }
-              archetypeDeckStats.winRate = numeral((archetypeDeckStats.wins) / (archetypeDeckStats.games - archetypeDeckStats.draws)).format('.00');
+              archetypeDeckStats.winRate = numeral((archetypeDeckStats.wins) / (archetypeDeckStats.games - archetypeDeckStats.draws)).format('0.00');
             });
             
             console.log('stats map is ' + util.inspect(statsMap, false, 5));

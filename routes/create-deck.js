@@ -5,11 +5,11 @@ var util = require('util');
  */
 
 exports.form = function(req, res, next) {
-  req.models.Class.find({}, function(error, classes) {
+  req.models.Class.list(function(error, classes) {
     if (error) {
       return next(error);
     }
-    req.models.Archetype.find({}, function(error, archetypes) {
+    req.models.Archetype.list(function(error, archetypes) {
       if (error) {
         return next(error);
       }
