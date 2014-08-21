@@ -1,0 +1,16 @@
+<h2>Create Archetype</h2>
+<form action="/create-archetype" method="POST" role="form">
+  <div class="form-group">
+    <label for="class">Class</label>
+      <select class="form-control" id="class" name="class">
+        {{#each classes}}
+        <option>{{_id}}</option>
+        {{/each}}  
+      </select>
+  </div>
+  <div class="form-group">
+    <label for="name">Name</label>
+    <input type="text" class="form-control" id="name" placeholder="Archetype name" name="name">
+  </div>
+  <button type="submit" class="btn btn-primary">Create Archetype</button>
+</form>
