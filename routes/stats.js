@@ -1,4 +1,5 @@
 var util = require('util');
+var numeral = require('numeral');
 
 /*
  * GET create deck page
@@ -50,7 +51,7 @@ exports.view = function(req, res, next) {
                 wins: 0,
                 losses: 0,
                 draws: 0,
-                winRate: 0
+                winRate: "N/A"
               };
             });
             games.forEach(function(game) {
@@ -71,7 +72,7 @@ exports.view = function(req, res, next) {
               default:
                 break;
               }
-              archetypeDeckStats.winRate = (archetypeDeckStats.wins) / (archetypeDeckStats.games - archetypeDeckStats.draws);
+              archetypeDeckStats.winRate = numeral((archetypeDeckStats.wins) / (archetypeDeckStats.games - archetypeDeckStats.draws)).format('.00');
             });
             
             console.log('stats map is ' + util.inspect(statsMap, false, 5));
