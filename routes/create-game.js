@@ -37,20 +37,18 @@ exports.create = function(req, res, next) {
     res.end('Missing an important form field');
   }
 
-  req.models.Archetype.find({name: req.body.opponentDeck}, function(error, archetypes) {
+  req.models.Archetype.findOne({_id: req.body.opponentDeck}, function(error, archetype) {
     if (error) {
       return next(error);
     }
-    var archetype = archetypes[0];
     if (!archetype) {
       return next(new Error("You chose a broken archetype"));
     }
     console.log('archetype is ' + util.inspect(archetype));
-    req.models.Deck.find({name: req.body.deck}, function(error, decks) {
+    req.models.Deck.findOne({_id: req.body.deck}, function(error, deck) {
       if (error) {
         return next(error);
       }
-      var deck = decks[0];
       if (!deck) {
         return next(new Error("You chose a broken deck"));
       }
