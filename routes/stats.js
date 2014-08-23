@@ -27,7 +27,8 @@ exports.view = function(req, res, next) {
         return next(new Error("You chose a broken deck"));
       }
       var gameQuery = req.models.Game.find({deck: deck._id})
-            .populate('deck');
+            .populate('deck')
+            .populate('opponentArchetype');
       if (req.query.days) {
         var queryDate = new Date();
         queryDate.setDate(queryDate.getDate() + (-1 * req.query.days));
@@ -57,25 +58,28 @@ exports.view = function(req, res, next) {
             draws: 0,
             winRate: "N/A"
           };
-          archetypes.forEach(function(archetype, index) {
-            var archetypeKey = archetype.class + '-' + archetype.name;
-            statsMap[archetype._id] = {
-              name: archetypeKey,
-              deckStats: {}
-            };
-            statsMap[archetype._id]['deckStats'][deck._id] = {
-              name: deck.name,
-              games: 0,
-              wins: 0,
-              losses: 0,
-              draws: 0,
-              winRate: "N/A"
-            };
-          });
           games.forEach(function(game) {
             var gameDeck = game.deck._id;
             var opponentArchetype = game.opponentArchetype;
-            var archetypeDeckStats = statsMap[opponentArchetype]['deckStats'][gameDeck];
+            var archetypeDeckStats = statsMap[opponentArchetype._id];
+            if (!archetypeDeckStats) {
+              statsMap[opponentArchetype._id] = {
+                name: opponentArchetype.class + '-' + opponentArchetype.name,
+                deckStats: {}
+              };
+            }
+            archetypeDeckStats = statsMap[opponentArchetype._id]['deckStats'];
+            if (!archetypeDeckStats[gameDeck]) {
+              archetypeDeckStats[gameDeck] = {
+                name: game.deck.name,
+                games: 0,
+                wins: 0,
+                losses: 0,
+                draws: 0,
+                winRate: "N/A"
+              };
+            }
+            archetypeDeckStats = statsMap[opponentArchetype._id]['deckStats'][gameDeck];
             var totalDeckStats = statsMap['All']['deckStats'][gameDeck];
             totalDeckStats.games++;
             archetypeDeckStats.games++;
