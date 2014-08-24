@@ -102,10 +102,21 @@ exports.view = function(req, res, next) {
             archetypeDeckStats.winRate = numeral((archetypeDeckStats.wins) / (archetypeDeckStats.games - archetypeDeckStats.draws)).format('0.00');
             totalDeckStats.winRate = numeral((totalDeckStats.wins) / (totalDeckStats.games - totalDeckStats.draws)).format('0.00');
           });
-          console.log('stats map is ' + util.inspect(statsMap, false, 5));
+          console.log('statsMap is ' + util.inspect(statsMap));
+          var statsArray = [];
+          for (entry in statsMap) {
+            if(statsMap.hasOwnProperty(entry)) {
+              statsArray.push(statsMap[entry]);
+            }
+          }
+          console.log('stats array is ' + util.inspect(statsArray));
+          statsArray.sort(function(a,b) {
+            return a.name.localeCompare(b.name);
+          });
+          console.log('stats array is ' + util.inspect(statsArray));
           res.render('stats', {
             decks: decks,
-            statsMap: statsMap
+            statsMap: statsArray
           });
         });
       });
