@@ -22,7 +22,16 @@ var deckSchema = new Schema({
     ref: 'User'
   }
 });
+deckSchema.virtual('selected').get(function() {
+  return this._selected;
+});
 
+deckSchema.virtual('selected').set(function(selected) {
+  return this._selected = selected;
+});
+deckSchema.set('toObject', {
+  getters: true
+});
 deckSchema.static({
   list: function(callback) {
     this.find({}, null, {sort: {name: 1}}, callback);

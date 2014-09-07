@@ -19,7 +19,14 @@ exports.form = function(req, res, next) {
         }
         console.log('classes is ' + classes);
         console.log('archetypes is ' + archetypes);
-        console.log('decks is ' + decks);
+        console.log('req.query.deck is ' + req.query.deck);
+        decks.forEach(function(deck) {
+          if (deck._id == req.query.deck) {
+            console.log('found deck');
+            deck.selected = true;
+          }
+        });
+        console.log('decks is ' + util.inspect(decks));
         res.render('create-game', {
           classes: classes,
           archetypes: archetypes,
@@ -69,7 +76,7 @@ exports.create = function(req, res, next) {
         if (error) {
           return next(error);
         }
-        res.redirect('/create-game?success=1');
+        res.redirect('/create-game?success=1&deck='+deck._id);
       });
     });
   });

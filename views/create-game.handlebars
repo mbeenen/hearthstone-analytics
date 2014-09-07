@@ -4,7 +4,11 @@
     <label for="deck">Deck</label>
     <select class="form-control" id="deck" name="deck">
       {{#each decks}}
-        <option value="{{_id}}">{{name}}</option>
+        <option value="{{_id}}"
+          {{#if selected}}
+            selected 
+          {{/if}}
+        >{{name}}</option>
       {{/each}}  
     </select>
   </div>
