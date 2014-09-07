@@ -8,6 +8,6 @@ exports.stats = require('./stats');
  */
 
 exports.index = function(req, res, next){
-  console.log('using index route');
+  //console.log('using index route');
   res.render('home');
 };

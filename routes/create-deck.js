@@ -13,8 +13,8 @@ exports.form = function(req, res, next) {
       if (error) {
         return next(error);
       }
-      console.log('classes is ' + classes);
-      console.log('archetypes is ' + archetypes);
+      //console.log('classes is ' + classes);
+      //console.log('archetypes is ' + archetypes);
       res.render('create-deck', {
         classes: classes,
         archetypes: archetypes
@@ -24,7 +24,7 @@ exports.form = function(req, res, next) {
 };
 
 exports.create = function(req, res, next) {
-  console.log('req.body is ' + util.inspect(req.body));
+  //console.log('req.body is ' + util.inspect(req.body));
   if (!req.body.name || !req.body.class || !req.body.archetype) {
     // Should redirect back to form with validation filled out
     res.end('Missing an important form field');
@@ -37,7 +37,7 @@ exports.create = function(req, res, next) {
     if (!archetype) {
       res.end("You chose a broken archetype");
     }
-    console.log('archetype is ' + util.inspect(archetype));
+    //console.log('archetype is ' + util.inspect(archetype));
     var deck = {
       user: "michael.beenen@gmail.com",
       name: req.body.name,

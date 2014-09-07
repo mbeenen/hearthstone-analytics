@@ -17,16 +17,16 @@ exports.form = function(req, res, next) {
         if (error) {
           return next(error);
         }
-        console.log('classes is ' + classes);
-        console.log('archetypes is ' + archetypes);
-        console.log('req.query.deck is ' + req.query.deck);
+        //console.log('classes is ' + classes);
+        //console.log('archetypes is ' + archetypes);
+        //console.log('req.query.deck is ' + req.query.deck);
         decks.forEach(function(deck) {
           if (deck._id == req.query.deck) {
-            console.log('found deck');
+            //console.log('found deck');
             deck.selected = true;
           }
         });
-        console.log('decks is ' + util.inspect(decks));
+        //console.log('decks is ' + util.inspect(decks));
         res.render('create-game', {
           classes: classes,
           archetypes: archetypes,
@@ -38,7 +38,7 @@ exports.form = function(req, res, next) {
 };
 
 exports.create = function(req, res, next) {
-  console.log('req.body is ' + util.inspect(req.body));
+  //console.log('req.body is ' + util.inspect(req.body));
   // Do some form validation
   if (!req.body.deck || !req.body.opponentDeck || !req.body.rank || !req.body.turn || !req.body.result) {
     res.end('Missing an important form field');
@@ -51,7 +51,7 @@ exports.create = function(req, res, next) {
     if (!archetype) {
       return next(new Error("You chose a broken archetype"));
     }
-    console.log('archetype is ' + util.inspect(archetype));
+    //console.log('archetype is ' + util.inspect(archetype));
     req.models.Deck.findOne({_id: req.body.deck}, function(error, deck) {
       if (error) {
         return next(error);
@@ -59,7 +59,7 @@ exports.create = function(req, res, next) {
       if (!deck) {
         return next(new Error("You chose a broken deck"));
       }
-      console.log('deck is ' + util.inspect(deck));
+      //console.log('deck is ' + util.inspect(deck));
 
       var game = {
         deck: deck._id,

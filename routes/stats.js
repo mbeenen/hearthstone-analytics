@@ -19,7 +19,7 @@ exports.view = function(req, res, next) {
     }
 
     req.models.Deck.findOne({name: req.query.deck}, function(error, deck) {
-      console.log('deck is ' + util.inspect(deck));
+      //console.log('deck is ' + util.inspect(deck));
       if (error) {
         return next(error);
       }
@@ -38,12 +38,12 @@ exports.view = function(req, res, next) {
         if (error) {
           return next(error);
         }
-        console.log('games is ' + util.inspect(games));
+        //console.log('games is ' + util.inspect(games));
         req.models.Archetype.list(function(error, archetypes) {
           if (error) {
             return next(error);
           }
-          console.log('archetypes is ' + util.inspect(archetypes));
+          //console.log('archetypes is ' + util.inspect(archetypes));
           var statsMap = {
             All: {
               name: 'All',
@@ -102,18 +102,18 @@ exports.view = function(req, res, next) {
             archetypeDeckStats.winRate = numeral((archetypeDeckStats.wins) / (archetypeDeckStats.games - archetypeDeckStats.draws)).format('0.00');
             totalDeckStats.winRate = numeral((totalDeckStats.wins) / (totalDeckStats.games - totalDeckStats.draws)).format('0.00');
           });
-          console.log('statsMap is ' + util.inspect(statsMap));
+          //console.log('statsMap is ' + util.inspect(statsMap));
           var statsArray = [];
           for (entry in statsMap) {
             if(statsMap.hasOwnProperty(entry)) {
               statsArray.push(statsMap[entry]);
             }
           }
-          console.log('stats array is ' + util.inspect(statsArray));
+          //console.log('stats array is ' + util.inspect(statsArray));
           statsArray.sort(function(a,b) {
             return a.name.localeCompare(b.name);
           });
-          console.log('stats array is ' + util.inspect(statsArray));
+          //console.log('stats array is ' + util.inspect(statsArray));
           res.render('stats', {
             decks: decks,
             statsMap: statsArray
