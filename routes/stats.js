@@ -66,7 +66,16 @@ exports.view = function(req, res, next) {
           if (!archetypeDeckStats) {
             statsMap[opponentArchetype._id] = {
               name: opponentArchetype.class + '-' + opponentArchetype.name,
-              deckStats: {}
+              deckStats: {
+                All : {
+                  name: 'All',
+                  games: 0,
+                  wins: 0,
+                  losses: 0,
+                  draws: 0,
+                  winRate: "N/A"
+                }
+              }
             };
           }
           archetypeDeckStats = statsMap[opponentArchetype._id]['deckStats'];
@@ -80,27 +89,33 @@ exports.view = function(req, res, next) {
               winRate: "N/A"
             };
           }
+          archetypeAllStats = statsMap[opponentArchetype._id]['deckStats']['All'];
           archetypeDeckStats = statsMap[opponentArchetype._id]['deckStats'][gameDeck._id];
           var totalDeckStats = statsMap['All']['deckStats'][gameDeck._id];
           totalDeckStats.games++;
+          archetypeAllStats.games++;
           archetypeDeckStats.games++;
           switch(game.result) {
           case 0:
             totalDeckStats.losses++;
             archetypeDeckStats.losses++;
+            archetypeAllStats.losses++;
             break;
           case 1:
             totalDeckStats.draws++;
             archetypeDeckStats.draws++;
+            archetypeAllStats.draws++;
             break;
           case 2:
             totalDeckStats.wins++;
             archetypeDeckStats.wins++;
+            archetypeAllStats.wins++;
             break;
           default:
             break;
           }
           archetypeDeckStats.winRate = numeral((archetypeDeckStats.wins) / (archetypeDeckStats.games - archetypeDeckStats.draws)).format('0.00');
+          archetypeAllStats.winRate = numeral((archetypeAllStats.wins) / (archetypeAllStats.games - archetypeAllStats.draws)).format('0.00');
           totalDeckStats.winRate = numeral((totalDeckStats.wins) / (totalDeckStats.games - totalDeckStats.draws)).format('0.00');
         });
         //console.log('statsMap is ' + util.inspect(statsMap));
