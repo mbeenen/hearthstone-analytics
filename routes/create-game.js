@@ -13,26 +13,28 @@ exports.form = function(req, res, next) {
       if (error) {
         return next(error);
       }
-      req.models.Deck.list(function(error, decks) {
-        if (error) {
-          return next(error);
-        }
-        //console.log('classes is ' + classes);
-        //console.log('archetypes is ' + archetypes);
-        //console.log('req.query.deck is ' + req.query.deck);
-        decks.forEach(function(deck) {
-          if (deck._id == req.query.deck) {
-            //console.log('found deck');
-            deck.selected = true;
+      req.models.Deck.find({})
+        .populate('archetype')
+        .exec(function(error, decks) {
+          if (error) {
+            return next(error);
           }
+          //console.log('classes is ' + classes);
+          //console.log('archetypes is ' + archetypes);
+          //console.log('req.query.deck is ' + req.query.deck);
+          decks.forEach(function(deck) {
+            if (deck._id == req.query.deck) {
+              //console.log('found deck');
+              deck.selected = true;
+            }
+          });
+          //console.log('decks is ' + util.inspect(decks));
+          res.render('create-game', {
+            classes: classes,
+            archetypes: archetypes,
+            decks: decks
+          });
         });
-        //console.log('decks is ' + util.inspect(decks));
-        res.render('create-game', {
-          classes: classes,
-          archetypes: archetypes,
-          decks: decks
-        });
-      });
     });
   });
 };
