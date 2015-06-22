@@ -29,7 +29,7 @@ exports.create = function(req, res, next) {
     // Should redirect back to form with validation filled out
     res.end('Missing an important form field');
   }
-  req.models.Archetype.find({name: req.body.archetype}, function(error, archetypes) {
+  req.models.Archetype.find({name: req.body.archetype, class: req.body.class}, function(error, archetypes) {
     if (error) {
       return next(error);
     }
