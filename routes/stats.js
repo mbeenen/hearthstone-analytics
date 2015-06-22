@@ -33,6 +33,9 @@ exports.view = function(req, res, next) {
       queryDate.setDate(queryDate.getDate() + (-1 * req.query.days));
       gameQuery.where('date').gt(queryDate);
     }
+    if (req.query.rank) {
+      gameQuery.where('rank').lt(req.query.rank);
+    }
     gameQuery.exec(function (error, games) {
       if (error) {
         return next(error);
@@ -46,7 +49,16 @@ exports.view = function(req, res, next) {
         var statsMap = {
           All: {
             name: 'All',
-            deckStats: {}
+            deckStats: {
+              All : {
+                name: 'All',
+                games: 0,
+                wins: 0,
+                losses: 0,
+                draws: 0,
+                winRate: "N/A"
+              }              
+            }
           }
         };
         games.forEach(function(game) {
@@ -89,24 +101,29 @@ exports.view = function(req, res, next) {
               winRate: "N/A"
             };
           }
-          archetypeAllStats = statsMap[opponentArchetype._id]['deckStats']['All'];
+          var allStats = statsMap['All']['deckStats']['All'];
+          var archetypeAllStats = statsMap[opponentArchetype._id]['deckStats']['All'];
           archetypeDeckStats = statsMap[opponentArchetype._id]['deckStats'][gameDeck._id];
           var totalDeckStats = statsMap['All']['deckStats'][gameDeck._id];
+          allStats.games++;
           totalDeckStats.games++;
           archetypeAllStats.games++;
           archetypeDeckStats.games++;
           switch(game.result) {
           case 0:
+            allStats.losses++;
             totalDeckStats.losses++;
             archetypeDeckStats.losses++;
             archetypeAllStats.losses++;
             break;
           case 1:
+            allStats.draws++;
             totalDeckStats.draws++;
             archetypeDeckStats.draws++;
             archetypeAllStats.draws++;
             break;
           case 2:
+            allStats.wins++;
             totalDeckStats.wins++;
             archetypeDeckStats.wins++;
             archetypeAllStats.wins++;
@@ -117,6 +134,7 @@ exports.view = function(req, res, next) {
           archetypeDeckStats.winRate = numeral((archetypeDeckStats.wins) / (archetypeDeckStats.games - archetypeDeckStats.draws)).format('0.00');
           archetypeAllStats.winRate = numeral((archetypeAllStats.wins) / (archetypeAllStats.games - archetypeAllStats.draws)).format('0.00');
           totalDeckStats.winRate = numeral((totalDeckStats.wins) / (totalDeckStats.games - totalDeckStats.draws)).format('0.00');
+          allStats.winRate = numeral((allStats.wins) / (allStats.games - allStats.draws)).format('0.00');
         });
         //console.log('statsMap is ' + util.inspect(statsMap));
         var statsArray = [];
