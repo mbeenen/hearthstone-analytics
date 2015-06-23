@@ -42,7 +42,7 @@ exports.form = function(req, res, next) {
 exports.create = function(req, res, next) {
   //console.log('req.body is ' + util.inspect(req.body));
   // Do some form validation
-  if (!req.body.deck || !req.body.opponentDeck || !req.body.rank || !req.body.turn || !req.body.result) {
+  if (!req.body.deck || !req.body.opponentDeck || !req.body.result) {
     res.end('Missing an important form field');
   }
 
@@ -68,9 +68,7 @@ exports.create = function(req, res, next) {
         opponentArchetype: archetype._id,
         result: req.body.result,
         coin: req.body.coin,
-        rank: req.body.rank,
         date: new Date(),
-        turn: req.body.turn,
         notes: req.body.notes,
         tags: req.body.tags
       };

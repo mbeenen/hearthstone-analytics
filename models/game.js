@@ -27,27 +27,8 @@ var gameSchema = new Schema({
     type: Boolean,
     default: false
   },
-  rank: {
-    type: Number,
-    required: true,
-    validate: [
-      function(value) {
-        return value >= 0 && value <= 25;
-      },
-      'Rank must be between 0 and 25'
-    ]
-  },
   date: {
     type: Date,
-    required: true
-  },
-  turn: {
-    type: Number,
-    validate: [
-      function(value) {
-        return value >= 1 && value <= 10;
-      }
-    ],
     required: true
   },
   notes: {

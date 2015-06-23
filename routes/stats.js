@@ -33,9 +33,6 @@ exports.view = function(req, res, next) {
       queryDate.setDate(queryDate.getDate() + (-1 * req.query.days));
       gameQuery.where('date').gt(queryDate);
     }
-    if (req.query.rank) {
-      gameQuery.where('rank').lt(req.query.rank);
-    }
     gameQuery.exec(function (error, games) {
       if (error) {
         return next(error);
@@ -51,6 +48,7 @@ exports.view = function(req, res, next) {
             name: 'All',
             deckStats: {
               All : {
+                class: 'All',
                 name: 'All',
                 games: 0,
                 wins: 0,
