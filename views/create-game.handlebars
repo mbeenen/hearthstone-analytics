@@ -2,36 +2,23 @@
 <form action="/create-game" method="POST" role="form">
   <div class="form-group">
     <label for="deck">Deck</label>
-    <select class="form-control" id="deck" name="deck">
-      {{#each decks}}
+    <select class="form-control" id="deck" name="playerArchetype">
+      {{#each archetypes}}
         <option value="{{_id}}"
           {{#if selected}}
             selected 
           {{/if}}
-        >{{archetype.class}} - {{name}}</option>
+        >{{class}} - {{name}}</option>
       {{/each}}  
     </select>
   </div>
   <div class="form-group">
     <label for="opponent-deck">Opponent Deck</label>
-      <select class="form-control" id="opponent-deck" name="opponentDeck">
+      <select class="form-control" id="opponent-deck" name="opponentArchetype">
         {{#each archetypes}}
         <option value="{{_id}}">{{class}} - {{name}}</option>
         {{/each}}  
       </select>
-  </div>
-  <div class="checkbox">
-    <label>
-      <input type="checkbox" name="coin">Coin?
-    </label>
-  </div>
-  <div class="form-group">
-    <label for="notes">Game notes</label>
-    <textarea class="form-control" name="notes" id="notes" rows="5"></textarea>
-  </div>
-  <div class="form-group">
-    <label for="tags">Tags (space delimited)</label>
-    <input type="text" name="tags" id="tags" class="form-control">
   </div>
   <button type="submit" value="2" name="result" class="btn btn-success">Record Win</button>
   <button type="submit" value="0" name="result" class="btn btn-danger">Record Loss</button>

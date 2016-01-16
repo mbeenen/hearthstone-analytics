@@ -13,28 +13,20 @@ exports.form = function(req, res, next) {
       if (error) {
         return next(error);
       }
-      req.models.Deck.find({})
-        .populate('archetype')
-        .exec(function(error, decks) {
-          if (error) {
-            return next(error);
-          }
-          //console.log('classes is ' + classes);
-          //console.log('archetypes is ' + archetypes);
-          //console.log('req.query.deck is ' + req.query.deck);
-          decks.forEach(function(deck) {
-            if (deck._id == req.query.deck) {
-              //console.log('found deck');
-              deck.selected = true;
-            }
-          });
-          //console.log('decks is ' + util.inspect(decks));
-          res.render('create-game', {
-            classes: classes,
-            archetypes: archetypes,
-            decks: decks
-          });
-        });
+      //console.log('classes is ' + classes);
+      //console.log('archetypes is ' + archetypes);
+      //console.log('req.query.deck is ' + req.query.deck);
+      archetypes.forEach(function(archetype) {
+        if (archetype._id == req.query.playerArchetype) {
+          //console.log('found deck');
+          archetype.selected = true;
+        }
+      });
+      //console.log('decks is ' + util.inspect(decks));
+      res.render('create-game', {
+        classes: classes,
+        archetypes: archetypes
+      });
     });
   });
 };
@@ -42,41 +34,38 @@ exports.form = function(req, res, next) {
 exports.create = function(req, res, next) {
   //console.log('req.body is ' + util.inspect(req.body));
   // Do some form validation
-  if (!req.body.deck || !req.body.opponentDeck || !req.body.result) {
+  if (!req.body.playerArchetype || !req.body.opponentArchetype || !req.body.result) {
     res.end('Missing an important form field');
   }
 
-  req.models.Archetype.findOne({_id: req.body.opponentDeck}, function(error, archetype) {
+  req.models.Archetype.findOne({_id: req.body.opponentArchetype}, function(error, opponentArchetype) {
     if (error) {
       return next(error);
     }
-    if (!archetype) {
-      return next(new Error("You chose a broken archetype"));
+    if (!opponentArchetype) {
+      return next(new Error("You chose a broken opponent archetype"));
     }
-    //console.log('archetype is ' + util.inspect(archetype));
-    req.models.Deck.findOne({_id: req.body.deck}, function(error, deck) {
+    //console.log('opponentArchetype is ' + util.inspect(opponentArchetype));
+    req.models.Archetype.findOne({_id: req.body.playerArchetype}, function(error, playerArchetype) {
       if (error) {
         return next(error);
       }
-      if (!deck) {
-        return next(new Error("You chose a broken deck"));
+      if (!playerArchetype) {
+        return next(new Error("You chose a broken player archetype"));
       }
-      //console.log('deck is ' + util.inspect(deck));
+      //console.log('deck is ' + util.inspect(playerArchetype));
 
       var game = {
-        deck: deck._id,
-        opponentArchetype: archetype._id,
+        playerArchetype: playerArchetype._id,
+        opponentArchetype: opponentArchetype._id,
         result: req.body.result,
-        coin: req.body.coin,
-        date: new Date(),
-        notes: req.body.notes,
-        tags: req.body.tags
+        date: new Date()
       };
       req.models.Game.create(game, function(error) {
         if (error) {
           return next(error);
         }
-        res.redirect('/create-game?success=1&deck='+deck._id);
+        res.redirect('/create-game?success=1&playerArchetype='+playerArchetype._id);
       });
     });
   });
