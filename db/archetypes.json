@@ -1,10 +1,7 @@
-{"class": "Druid","name": "Ramp"},
-{"class": "Druid","name": "Token"}
-{"class": "Paladin","name": "Tauntadin"},
-{"class": "Mage","name": "Freeze"},
-{"class": "Shaman","name": "Standard"},
-{"class": "Priest","name": "Control"},
-{"class": "Rogue","name": "Miracle"},
-{"class": "Warlock","name": "Zoo"},
-{"class": "Hunter","name": "Face"},
+{"class": "Druid","name": "Ramp"}
+{"class": "Mage","name": "Freeze"}
+{"class": "Priest","name": "Control"}
+{"class": "Rogue","name": "Miracle"}
+{"class": "Warlock","name": "Zoo"}
+{"class": "Hunter","name": "Face"}
 {"class": "Warrior","name": "Control"}
