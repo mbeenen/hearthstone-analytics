@@ -3,9 +3,9 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var gameSchema = new Schema({
-  deck: {
+  playerArchetype: {
     type: Schema.Types.ObjectId,
-    ref: 'Deck',
+    ref: 'Archetype',
     required: true
   },
   opponentArchetype: {
@@ -23,31 +23,9 @@ var gameSchema = new Schema({
       'Result must be between 0 and 2'
     ]
   },
-  coin: {
-    type: Boolean,
-    default: false
-  },
   date: {
     type: Date,
     required: true
-  },
-  notes: {
-    type: String,
-    validate: [
-      function(value) {
-        return value.length <= 600;
-      },
-      'Notes are too long (600 max)'
-    ]
-  },
-  tags: {
-    type: String,
-    validate: [
-      function(value) {
-        return value.length <= 100;
-      },
-      'tags are too long (100 max)'
-    ]
   }
 });
 
