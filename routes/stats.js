@@ -6,19 +6,20 @@ var numeral = require('numeral');
  */
 
 exports.view = function(req, res, next) {
-  req.models.Deck.list(function(error, decks) {
+  var deckQuery = req.models.Deck.find({}).populate('archetype');
+  deckQuery.exec(function(error, decks) {
     if (error) {
       return next(error);
     }
 
+    var deckMap = {};
     var statsDeck;
-    if (req.query.deck) {
-      decks.forEach(function(deck) {
-        if (deck.name == req.query.deck) {
+    decks.forEach(function(deck) {
+      deckMap[deck._id] = deck;
+      if (req.query.deck && deck.name == req.query.deck) {
           statsDeck = deck;
-        }
-      });
-    }
+      }
+    });
     console.log('statsDeck is ' + util.inspect(statsDeck));
     var gameQuery;
     if (statsDeck) {
@@ -27,6 +28,7 @@ exports.view = function(req, res, next) {
     } else {
       gameQuery = req.models.Game.find();
     }
+
     gameQuery.populate('deck').populate('opponentArchetype');
     if (req.query.days) {
       var queryDate = new Date();
@@ -60,10 +62,11 @@ exports.view = function(req, res, next) {
           }
         };
         games.forEach(function(game) {
-          var gameDeck = game.deck;
+          var gameDeck = deckMap[game.deck._id];
+          var gameDeckLabel = gameDeck.archetype.class + ' - ' + gameDeck.name;
           if (!statsMap['All']['deckStats'][game.deck._id]) {
             statsMap['All']['deckStats'][gameDeck._id] = {
-              name: gameDeck.name,
+              name: gameDeckLabel,
               games: 0,
               wins: 0,
               losses: 0,
@@ -75,7 +78,7 @@ exports.view = function(req, res, next) {
           var archetypeDeckStats = statsMap[opponentArchetype._id];
           if (!archetypeDeckStats) {
             statsMap[opponentArchetype._id] = {
-              name: opponentArchetype.class + '-' + opponentArchetype.name,
+              name: opponentArchetype.class + ' - ' + opponentArchetype.name,
               deckStats: {
                 All : {
                   name: 'All',
@@ -91,7 +94,7 @@ exports.view = function(req, res, next) {
           archetypeDeckStats = statsMap[opponentArchetype._id]['deckStats'];
           if (!archetypeDeckStats[gameDeck._id]) {
             archetypeDeckStats[gameDeck._id] = {
-              name: game.deck.name,
+              name: gameDeckLabel,
               games: 0,
               wins: 0,
               losses: 0,
