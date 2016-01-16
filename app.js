@@ -36,8 +36,6 @@ app.use(function(req, res, next) {
 });
 
 app.get('/', routes.index);
-app.get('/create-deck', routes.createDeck.form);
-app.post('/create-deck', routes.createDeck.create);
 app.get('/create-game', routes.createGame.form);
 app.post('/create-game', routes.createGame.create);
 app.get('/create-archetype', routes.createArchetype.form);

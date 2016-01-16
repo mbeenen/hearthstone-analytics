@@ -1,4 +1,3 @@
-exports.createDeck = require('./create-deck');
 exports.createGame = require('./create-game');
 exports.createArchetype = require('./create-archetype');
 exports.stats = require('./stats');
