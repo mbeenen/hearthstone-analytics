@@ -1,0 +1,47 @@
+<h2>Game Anlysis</h2>
+{{#if statsMap}}
+  {{#each statsMap}}
+    <h3>Vs. {{name}}</h3>
+    <table class="table">
+      <thead>
+        <th>Class</th>
+        <th>Games</th>
+        <th>Wins</th>
+        <th>Losses</th>
+        <th>Draws</th>
+        <th>Win Percentage</th>
+      </thead>
+      <tbody>
+        {{#each playerClassStats}}
+          <tr>
+            <td>{{name}}</td>
+            <td>{{games}}</td>
+            <td>{{wins}}</td>
+            <td>{{losses}}</td>
+            <td>{{draws}}</td>
+            <td>{{winRate}}</td>
+          </tr>
+        {{/each}}
+    </table>
+  {{/each}}  
+{{/if}}  
+<h3>Filter Sets</h3>
+<p>Select an class to see performance</p>
+<form action="/arena-stats" method="GET" role="form">
+  <div class="form-group">
+    <label for="deck">Deck</label>
+    <select class="form-control" id="playerClass" name="playerClass">
+      <option value="">All</option>
+      {{#each classes}}
+        <option>{{_id}}</option>
+      {{/each}}  
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="days">Last X Days:</label>
+    <input type="number" name="days" id="days" class="form-control">
+  </div>
+  <button type="submit" class="btn btn-primary">Get stats</button>
+</form>
+
+
